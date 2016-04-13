@@ -1,4 +1,4 @@
-package practice;
+package Practice;
 
 /**
  * Author han on 16-3-25.

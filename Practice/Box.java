@@ -1,5 +1,4 @@
-package practice;
-import commonUnit.CommonUnit;
+package Practice;
 
 /**
  * Author han on 16-1-12.

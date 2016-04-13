@@ -1,4 +1,4 @@
-package practice;
+package Practice;
 
 public class HelloWorld {
     public static void main(String[] args) {

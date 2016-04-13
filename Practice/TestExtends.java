@@ -1,7 +1,8 @@
-package practice;
+package Practice;
 
 /**
  * Created by han on 16-3-28.
+ * 多态 动态绑定（虚方法调用）
  */
 public class TestExtends {
     static void doIt(Person p){

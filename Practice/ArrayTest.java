@@ -1,4 +1,4 @@
-package practice;
+package Practice;
 
 import java.util.Arrays;
 
@@ -11,7 +11,7 @@ public class ArrayTest {
     public int[] arr = {1, 2, 5, 8};
 
     public void putsArr1(){
-        for (int i=0; i<arr.length; i++){
+        for(int i=0; i<arr.length; i++){
             System.out.print(arr[i]);
         }
         System.out.println();
