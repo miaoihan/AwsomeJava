@@ -1,36 +1,47 @@
 package Game;
 
 import java.util.Scanner;
-
-
 /**
  * Created by han on 16-4-11.
  */
+
 public class GuessNub {
-    static int num = (int) (Math.random()*100);
-    static int t = 1;
+    /**     猜数字的最大范围     */
+    final static int RANGE = 100;
+    /**     产生1--range范围的随机数     */
+    static int num = (int) (Math.random()*RANGE+1);
+    /**     猜的次数     */
+    static int t = 0;
+    /**     作弊码，输入-1开启 1；开启 0；关闭     */
+    static int zb = 0;
     public static void main(String[] args) {
-        String open = "o";
-        //**** 开启作弊模式 *****//
-        while(open == "ok"){System.out.println(num);break;}
+        //**** 作弊模式 open设置成1开启*****//
+        if(zb == 1){
+            System.out.println("*****作弊模式开启******");
+            System.out.println("啦啦啦，数字就是:"+num);
+            System.out.println("**********************");}
         //**** 开启作弊模式 *****//
 
         GuessNub gn = new GuessNub();
+        System.out.println("请输入1到"+RANGE+"中的一个数:");
         gn.doIt();
     }
     public void doIt(){
         int a;
         do {
-            System.out.println("请输入一个数:");
+            if (t>=1)
+                System.out.println("请再猜一个数:");
             a = getNum();
+
             ++t;
         } while (gudge(a) == 0);
     }
 
     public static int getNum(){
-        Scanner sc = new Scanner(System.in);
-        int num = sc.nextInt();
-        return num;
+//        Scanner sc = new Scanner(System.in);
+//        int num = sc.nextInt();
+//        return num;
+        return new Scanner(System.in).nextInt();
     }
 
     public static int gudge(int a){
@@ -42,6 +53,9 @@ public class GuessNub {
             if(t>8) {System.out.println("你竟然猜了"+t+"次，你的智商真是堪忧啊");return 1;}
         }
         else if (a<num) {
+            if (a==-1){
+                zuobi();
+                return 0;}
             System.out.println("你猜小啦！");
             return 0;}
         else {
@@ -49,6 +63,15 @@ public class GuessNub {
             return 0;
         }
         return 0;
+    }
+
+    public static void zuobi(){
+//        if (zb==1){
+            System.out.println("*****作弊模式开启******");
+            System.out.println("啦啦啦，数字就是:"+num);
+            System.out.println("**********************");
+            t--;    //不计算次数
+//        }
     }
 
 }

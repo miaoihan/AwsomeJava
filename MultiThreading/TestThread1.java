@@ -4,14 +4,24 @@ package MultiThreading;
  * Created by han on 16-4-5.
  */
 public class TestThread1 {
-    public static int a = 3;
+    public static int b = 3;
+//    public static void main(String[] args) {
+//        Thread t1 = new MyThread();
+//        Thread t2 = new MyThread2();
+//        t1.start();
+//        t2.start();
+//    }
+
+}
+
+class MainRun{
     public static void main(String[] args) {
         Thread t1 = new MyThread();
         Thread t2 = new MyThread2();
         t1.start();
         t2.start();
+//        System.out.println(b);
     }
-
 }
 
 class MyThread extends Thread{
