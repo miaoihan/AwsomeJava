@@ -1,4 +1,5 @@
 package System;
+//import static net.mindview.util.Print.*;
 
 /**
  * Created by han on 16-4-17.
@@ -9,9 +10,13 @@ public class TestSystem {
 //        System.out.println("please input: ");
 //        String ss = getInput();
 //        System.out.println("ss: "+ss);
-        System.getProperty("java.version");
-        System.getProperty("java..class.path");
-        System.getProperty("user.dir");
+        System.out.println(System.getProperty("java.version"));
+        System.out.println(System.getProperty("java..class.path"));
+        System.out.println(System.getProperty("user.dir"));
+        System.out.println(System.getProperty("java.home"));
+        System.out.println(System.getProperty("os.name"));
+        System.out.println(System.getProperty("os.version"));
+        System.out.println(System.getProperty("java."));
     }
 
     public static String getInput(){
