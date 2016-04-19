@@ -2,6 +2,7 @@ package System;
 //import static net.mindview.util.Print.*;
 
 /**
+ * System类的各种用法
  * Created by han on 16-4-17.
  */
 public class TestSystem {
@@ -16,7 +17,9 @@ public class TestSystem {
         System.out.println(System.getProperty("java.home"));
         System.out.println(System.getProperty("os.name"));
         System.out.println(System.getProperty("os.version"));
-        System.out.println(System.getProperty("java."));
+        System.out.println(System.getProperty("java.vm.version"));
+        System.out.println(System.getProperty("java.vm.name"));
+        System.out.println(System.getProperty("file.separator"));
     }
 
     public static String getInput(){

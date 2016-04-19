@@ -1,18 +1,19 @@
 package commonUnit;
 
 /**
+ * 我自己写的公共方法
  * Author han on 16-1-13.
  */
 public class CommonUnit {
 
-    public static void puts(Object... msgs){
+    public static void put(Object... msgs){
         for (Object msg : msgs) {
             System.out.println(msg);
         }
     }
 
     public static void main(String[] args) {
-        puts("hello!");
-        puts(222);
+        put("hello!");
+        put(222);
     }
 }

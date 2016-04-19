@@ -1,6 +1,7 @@
 package System;
 
 /**
+ * 检测代码执行时间
  * Created by han on 16-4-17.
  */
 public class CodeTime {
