@@ -14,6 +14,7 @@ public class Windows1 {
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("Windows1");
+        JLabel jb = new JLabel();
         frame.setContentPane(new Windows1().panel1);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
