@@ -22,6 +22,7 @@ public class CopyFileByLine {
                 System.out.println(st);
                 st = br.readLine();
             }
+
             br.close();
             bw.close();
         } catch (IOException e) {
