@@ -7,10 +7,10 @@ import java.util.ArrayList;
  */
 public class SaleTicks {
     public static void main(String[] args) {
-        new TicketSeller().start();
-        new TicketSeller().start();
-        new TicketSeller().start();
-        new TicketSeller().start();
+        for (int i = 0; i < 5; i++) {
+            new TicketSeller().start();
+
+        }
     }
 }
 
@@ -21,17 +21,10 @@ class TicketSeller extends Thread {
 
     public void run() {
         while (true) {
-            synchronized (lock) {
+            synchronized (this) {
                 /************ 每次售票前进行判断 ************/
                 if (ticket == 0) {
                     break;
-                }
-
-                /************ 模拟售票的网络延迟 ************/
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
                 }
 
                 /************ 符合条件后进行售票 ************/

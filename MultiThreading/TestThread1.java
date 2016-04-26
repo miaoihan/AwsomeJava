@@ -45,7 +45,7 @@ class MyThread2 extends Thread{
         for (char i='a'; i<='z'; i++){
             System.out.print(i+" ");
             try {
-                Thread.sleep(5);
+                Thread.sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
