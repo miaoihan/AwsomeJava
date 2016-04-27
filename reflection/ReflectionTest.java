@@ -1,6 +1,5 @@
 package reflection;
 
-import com.sun.org.apache.xpath.internal.SourceTree;
 
 import java.lang.reflect.*;
 import java.util.*;
@@ -37,6 +36,7 @@ public class ReflectionTest {
             System.out.println();
             printFields(cl);
             System.out.println("}");
+//            Fields fd = cl.getDeclaredField();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
