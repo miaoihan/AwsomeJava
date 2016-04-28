@@ -72,4 +72,6 @@ public class BaseDao {
         User u = new User("zhangsan","1234");
         bd.save(u);
     }
+
+    // 未完待续
 }
