@@ -11,11 +11,13 @@ import java.util.Random;
 public class TestMap {
     public static void main(String[] args) {
         Random rand = new Random();
-        Map<Integer,Integer> map= new HashMap<Integer,Integer>();
+        Map<Integer,Integer> map= new HashMap<>();
+        /** 产生一百万个数  */
         for (int i = 0; i < 1000000; i++) {
+            /** 随机生成0-19 */
             int r = rand.nextInt(20);
-            Integer time = map.get(r);
-            map.put(r, time == null ? 1 : time+1);
+            Integer times = map.get(r);
+            map.put(r, times == null ? 1 : times+1);
         }
         System.out.println(map);
     }

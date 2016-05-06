@@ -6,10 +6,10 @@ package commonUnit;
  */
 public class CommonUnit {
 
-    public static void put(Object... msgs){
-        for (Object msg : msgs) {
-            System.out.println(msg);
-        }
+    public static void put(Object msgs){
+//        for (Object msg : msgs) {
+            System.out.println(msgs);
+//        }
     }
 
     public static void main(String[] args) {
