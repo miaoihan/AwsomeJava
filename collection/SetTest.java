@@ -19,6 +19,7 @@ public class SetTest {
         while (!sc.hasNext("0")){//输入0结束
             String word = sc.next();
             long callTime = System.nanoTime();
+            //set无法加入重复的单词
             words.add(word);
             callTime = System.nanoTime() - callTime;
             totalTime += callTime;
