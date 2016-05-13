@@ -24,7 +24,9 @@
 * 队列可以让人们有效地在尾部添加一个元素，头部删除一个元素
 * SE 6 中引入了Deque接口，由ArrayDeque和LinkList实现
 
-###
+### 13.2.7 优先级队列(priority queue)
+
+
 
 
 
