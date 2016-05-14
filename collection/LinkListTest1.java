@@ -19,7 +19,7 @@ public class LinkListTest1 {
 //            System.out.println(p1.name);
 //            p1 = p1.next;
 //        }
-        Iterable iter = Person.i
+//        Iterable iter = Person.
     }
 
 

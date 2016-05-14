@@ -1,12 +1,15 @@
 package pojo;
 
 import java.lang.Iterable;
+import java.util.Iterator;
+import java.util.Spliterator;
+import java.util.function.Consumer;
 
 /**
  * time: 16-5-12.
  * author: han
  */
-public abstract class Person implements Iterator {
+public class Person implements Iterable {
     public String name;
     public Integer id;
     //定义接力指向下一个
@@ -35,5 +38,20 @@ public abstract class Person implements Iterator {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    @Override
+    public void forEach(Consumer action) {
+
+    }
+
+    @Override
+    public Spliterator spliterator() {
+        return null;
+    }
+
+    @Override
+    public Iterator iterator() {
+        return null;
     }
 }
