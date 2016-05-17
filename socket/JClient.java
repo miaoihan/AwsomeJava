@@ -21,51 +21,13 @@ import javax.swing.JButton;
  */
 public class JClient extends javax.swing.JFrame {
 
-    String name;
-    Socket s1;
-    BufferedReader reader;
-    PrintWriter writer;
+    private String name;
+    private Socket s1;
+    private BufferedReader reader;
+    private PrintWriter writer;
     /**
      * Creates new form Jrun
      */
-    public JClient(String name, Boolean at,Boolean bt,Boolean ct) {
-        this.name = name;
-
-        initComponents();
-        jtfcliname.setText("客户端" + name);
-        try {
-            s1 = new Socket("127.0.0.1", 8888);
-            reader = new BufferedReader(new InputStreamReader(s1.getInputStream()));
-            writer = new PrintWriter(s1.getOutputStream(), true);
-            //发送给服务器端
-            writer.println(name);
-//                System.out.println(aisLogin);
-
-
-            this.setVisible(true);
-
-            //接受服务器发过来的 在线用户消息
-//            list = socket.getList();
-//            
-//            
-//            ////判断其他是否在线，并设置颜色
-//                for (int i = 0; i < list.size; i++) {
-//                    if(list[i].eqals("at"))
-//                    btncliA.setBackground(Color.green);
-//                    if(list[i].eqals("at"))
-//                    btncliA.setBackground(Color.green);
-//                    if(list[i].eqals("at"))
-//                    btncliA.setBackground(Color.green);
-//                }
-
-
-
-
-        } catch (IOException ex) {
-
-        }
-
-    }
 
     public JClient(String name) {
         this.name = name;
@@ -220,10 +182,18 @@ public class JClient extends javax.swing.JFrame {
         // TODO add your handling code here:
     }
 
+    /**
+     * 下线
+     * @param evt
+     */
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {
         this.dispose();
         new Jlogin().setVisible(true);
         // TODO add your handling code here:
+    }
+
+    private void loginOut(){
+        this.dispose();
     }
 
     /**
