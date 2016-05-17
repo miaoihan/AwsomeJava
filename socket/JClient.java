@@ -22,30 +22,33 @@ import javax.swing.JButton;
 public class JClient extends javax.swing.JFrame {
 
     String name;
+    Socket s1;
+    BufferedReader reader;
+    PrintWriter writer;
     /**
      * Creates new form Jrun
      */
     public JClient(String name, Boolean at,Boolean bt,Boolean ct) {
         this.name = name;
-        
+
         initComponents();
-        jtfcliname.setText("�ͻ���" + name);
-            try {
-            Socket s1 = new Socket("127.0.0.1", 8888);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(s1.getInputStream()));
-            PrintWriter writer = new PrintWriter(s1.getOutputStream(), true);
-            //���͸���������
+        jtfcliname.setText("客户端" + name);
+        try {
+            s1 = new Socket("127.0.0.1", 8888);
+            reader = new BufferedReader(new InputStreamReader(s1.getInputStream()));
+            writer = new PrintWriter(s1.getOutputStream(), true);
+            //发送给服务器端
             writer.println(name);
 //                System.out.println(aisLogin);
-            
-            
+
+
             this.setVisible(true);
-            
-            //���ܷ������������� �����û���Ϣ
+
+            //接受服务器发过来的 在线用户消息
 //            list = socket.getList();
 //            
 //            
-//            ////�ж������Ƿ����ߣ���������ɫ
+//            ////判断其他是否在线，并设置颜色
 //                for (int i = 0; i < list.size; i++) {
 //                    if(list[i].eqals("at"))
 //                    btncliA.setBackground(Color.green);
@@ -54,39 +57,61 @@ public class JClient extends javax.swing.JFrame {
 //                    if(list[i].eqals("at"))
 //                    btncliA.setBackground(Color.green);
 //                }
-           
-            
-            
-            
-        } catch (IOException ex) {  
-            
-        }    
-       
-    }
-    
-    public JClient(String namet) {
-        this.name = name;
-        
-        initComponents();
-        jtfcliname.setText("�ͻ���" + name);
-            try {
-            Socket s1 = new Socket("127.0.0.1", 8888);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(s1.getInputStream()));
-            PrintWriter writer = new PrintWriter(s1.getOutputStream(), true);
-            //���͸���������
-            writer.println(name);
-//                System.out.println(aisLogin);
-            
-            
-            this.setVisible(true);
-   
-        } catch (IOException ex) {  
-            
-        }    
-       
+
+
+
+
+        } catch (IOException ex) {
+
+        }
+
     }
 
-   
+    public JClient(String name) {
+        this.name = name;
+
+        initComponents();
+        jtfcliname.setText("客户端" + name);
+        try {
+            //获得一个连接服务器的socket
+            s1 = new Socket("127.0.0.1", 8888);
+            //输入流
+            reader = new BufferedReader(new InputStreamReader(s1.getInputStream()));
+            //输出流，自动flush
+            writer = new PrintWriter(s1.getOutputStream(), true);
+            //发送给服务器端
+            writer.println(name);
+//            System.out.println("ok!----");
+            this.setVisible(true);
+            //监听上线用户的线程
+            new Thread(() -> {
+                while (true) {
+                    try {
+                        String cname = reader.readLine();
+                        System.out.println("connected!");
+                        //拆分逗号，得到A B C
+                        String[] cn = cname.split(",");
+                        //迭代判断设置按钮颜色
+                        for (String aCn : cn) {
+                            if (aCn.equals("A")) this.btncliA.setBackground(Color.green);
+                            if (aCn.equals("B")) this.btncliB.setBackground(Color.green);
+                            if (aCn.equals("C")) this.btncliC.setBackground(Color.green);
+                        }
+                        System.out.println("Client name:" + cname);
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
+
+        } catch (IOException ex) {
+
+        }
+
+    }
+
+
     private JClient() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -100,15 +125,15 @@ public class JClient extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
-        jButton1 = new JButton();
-        btncliA = new JButton();
-        btncliB = new JButton();
-        btncliC = new JButton();
+        jButton1 = new javax.swing.JButton();
+        btncliA = new javax.swing.JButton();
+        btncliB = new javax.swing.JButton();
+        btncliC = new javax.swing.JButton();
         jtfcliname = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jButton1.setText("�˳���½");
+        jButton1.setText("退出登陆");
         jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton1MouseClicked(evt);
@@ -120,24 +145,24 @@ public class JClient extends javax.swing.JFrame {
             }
         });
 
-        btncliA.setBackground(new Color(255, 0, 0));
-        btncliA.setText("�ͻ���A");
+        btncliA.setBackground(new java.awt.Color(255, 0, 0));
+        btncliA.setText("客户端A");
         btncliA.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btncliAActionPerformed(evt);
             }
         });
 
-        btncliB.setBackground(new Color(255, 0, 0));
-        btncliB.setText("�ͻ���B");
+        btncliB.setBackground(new java.awt.Color(255, 0, 0));
+        btncliB.setText("客户端B");
         btncliB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btncliBActionPerformed(evt);
             }
         });
 
-        btncliC.setBackground(new Color(240, 0, 0));
-        btncliC.setText("�ͻ���C");
+        btncliC.setBackground(new java.awt.Color(240, 0, 0));
+        btncliC.setText("客户端C");
 
         jtfcliname.setEditable(false);
         jtfcliname.setText("jTextField1");
@@ -146,60 +171,60 @@ public class JClient extends javax.swing.JFrame {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(51, 51, 51)
-                .addComponent(jButton1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(69, 69, 69)
-                .addComponent(jtfcliname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 152, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btncliB)
-                    .addComponent(btncliA)
-                    .addComponent(btncliC))
-                .addGap(32, 32, 32))
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addGap(51, 51, 51)
+                                .addComponent(jButton1)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(69, 69, 69)
+                                .addComponent(jtfcliname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 152, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(btncliB)
+                                        .addComponent(btncliA)
+                                        .addComponent(btncliC))
+                                .addGap(32, 32, 32))
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(49, 49, 49)
-                        .addComponent(btncliA))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(62, 62, 62)
-                        .addComponent(jtfcliname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(36, 36, 36)
-                .addComponent(btncliB)
-                .addGap(20, 20, 20)
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btncliC)
-                .addContainerGap(82, Short.MAX_VALUE))
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addGap(49, 49, 49)
+                                                .addComponent(btncliA))
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addGap(62, 62, 62)
+                                                .addComponent(jtfcliname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(36, 36, 36)
+                                .addComponent(btncliB)
+                                .addGap(20, 20, 20)
+                                .addComponent(jButton1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btncliC)
+                                .addContainerGap(82, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>                        
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
-    }                                        
+    }
 
-    private void btncliAActionPerformed(java.awt.event.ActionEvent evt) {                                        
+    private void btncliAActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
-    }                                       
+    }
 
-    private void btncliBActionPerformed(java.awt.event.ActionEvent evt) {                                        
+    private void btncliBActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
-    }                                       
+    }
 
-    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {                                      
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {
         this.dispose();
         new Jlogin().setVisible(true);
         // TODO add your handling code here:
-    }                                     
+    }
 
     /**
      * @param args the command line arguments
@@ -218,13 +243,13 @@ public class JClient extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(JClient.class.getName()).log(Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JClient.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            Logger.getLogger(JClient.class.getName()).log(Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JClient.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            Logger.getLogger(JClient.class.getName()).log(Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JClient.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(JClient.class.getName()).log(Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JClient.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -237,13 +262,13 @@ public class JClient extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify                     
-    private JButton btncliA;
-    private JButton btncliB;
-    private JButton btncliC;
-    private JButton jButton1;
+    private javax.swing.JButton btncliA;
+    private javax.swing.JButton btncliB;
+    private javax.swing.JButton btncliC;
+    private javax.swing.JButton jButton1;
     private javax.swing.JTextField jtfcliname;
     // End of variables declaration                   
- public JButton getbtncliA() {
+    public JButton getbtncliA() {
         return btncliA;
     }
 

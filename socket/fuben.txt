@@ -1,10 +1,20 @@
 package socket;
 
 import java.awt.Color;
-import java.io.*;
+import java.awt.List;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import static javafx.scene.paint.Color.color;
+import static javafx.scene.paint.Color.color;
+import static javafx.scene.paint.Color.web;
+
 import javax.swing.JButton;
 
 /*
@@ -18,8 +28,7 @@ import javax.swing.JButton;
  */
 public class Jserver extends javax.swing.JFrame {
     static String usersStr = "";
-    //保存客户端连接
-    private static java.util.List<Socket> userList = new ArrayList<>();
+    private static java.util.List<Socket> list = new java.util.ArrayList<>();
 
     /**
      * Creates new form JFlogin
@@ -183,47 +192,28 @@ public class Jserver extends javax.swing.JFrame {
         Jserver jserver = new Jserver();
         jserver.setVisible(true);
         ServerSocket s = null;
-
         try {
             s = new ServerSocket(8888);
         } catch (IOException e) {
-            e.printStackTrace();
         }
         while (true) {
             try {
                 //阻塞态，等待客户端接入
-                Socket s1 = s != null ? s.accept() : null;
+                Socket s1 = s.accept();
                 (new Thread(new Runner(s1, jserver))).start();
-
             } catch (IOException ex) {
-                ex.printStackTrace();
+
             }
         }
     }
 
-    private static void sendToAll(){
-//        System.out.println(userList);
-        //遍历客户端，向所有用户发消息
-        for (Socket s : userList) {
-            try {
-                PrintWriter w = new PrintWriter(s.getOutputStream(), true);
-                //发送消息
-                w.println(usersStr);
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }
-    }
-
-    /**
-     * 内部内，方便操作
-     */
     static class Runner implements Runnable {
 
 
         private Socket socket = null;
         private Jserver jserver;
         BufferedReader reader;
+        PrintWriter writer;
         String name;
 
         Runner(Socket socket, Jserver jserver) {
@@ -232,44 +222,42 @@ public class Jserver extends javax.swing.JFrame {
 
         }
 
-        @Override
         public void run() {
             try {
                 //输入流
                 reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                //读取某一个用户名
+                //输出流
+                writer = new PrintWriter(socket.getOutputStream(), true);
+                //读取行
                 name = reader.readLine();
-                //拼接后的所有用户
                 usersStr += name + ",";
-                //保存客户端用户
-                userList.add(socket);
-                //给所有用户发送消息
-                sendToAll();
+                //发送给客户端
+                writer.println(usersStr);
+                writer.flush();
+//            name = line.substring(0);
+
+                //测试用
+                System.out.println(usersStr);
+                System.out.println(socket);
+                list.add(socket);
+                System.out.println(list);
 
                 //登陆后服务端变绿色
-                switch (name) {
-                    case "A":
-                        jserver.getbtnserA().setBackground(Color.green);
-                        break;
-                    case "B":
-                        jserver.getbtnserB().setBackground(Color.green);
-                        break;
-                    case "C":
-                        jserver.getbtnserC().setBackground(Color.green);
-                        break;
+                if (name.equals("A")) {
+                    jserver.getbtnserA().setBackground(Color.green);
+                } else if (name.equals("B")) {
+                    jserver.getbtnserB().setBackground(Color.green);
+                } else if (name.equals("C")) {
+                    jserver.getbtnserC().setBackground(Color.green);
                 }
 
             } catch (IOException e) {
-                switch (name) {
-                    case "A":
-                        jserver.getbtnserA().setBackground(Color.red);
-                        break;
-                    case "B":
-                        jserver.getbtnserB().setBackground(Color.red);
-                        break;
-                    case "C":
-                        jserver.getbtnserC().setBackground(Color.red);
-                        break;
+                if (name.equals("A")) {
+                    jserver.getbtnserA().setBackground(Color.red);
+                } else if (name.equals("B")) {
+                    jserver.getbtnserB().setBackground(Color.red);
+                } else if (name.equals("C")) {
+                    jserver.getbtnserC().setBackground(Color.red);
                 }
 
             }
