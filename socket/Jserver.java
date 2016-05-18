@@ -224,7 +224,7 @@ public class Jserver extends javax.swing.JFrame {
         private Socket socket = null;
         private Jserver jserver;
         BufferedReader reader;
-        String name;
+        String name = "";
 
         Runner(Socket socket, Jserver jserver) {
             this.socket = socket;
@@ -234,44 +234,48 @@ public class Jserver extends javax.swing.JFrame {
 
         @Override
         public void run() {
+
             try {
                 //输入流
                 reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                //读取某一个用户名
-                name = reader.readLine();
-                //拼接后的所有用户
-                usersStr += name + ",";
-                //保存客户端用户
-                userList.add(socket);
-                //给所有用户发送消息
-                sendToAll();
+                //通过 name == X- ？ 判断是否在线
+                boolean isOnline = !name.equals(name + "-");
+                //用户在线时循环发送
+                while(isOnline) {
+                    //读取某一个用户名
+                    name = reader.readLine();
+                    //拼接后的所有用户
+                    usersStr += name + ",";
+                    //保存客户端用户
+                    userList.add(socket);
+                    //给所有用户发送消息
+                    sendToAll();
 
-                //登陆后服务端变绿色
-                switch (name) {
-                    case "A":
-                        jserver.getbtnserA().setBackground(Color.green);
-                        break;
-                    case "B":
-                        jserver.getbtnserB().setBackground(Color.green);
-                        break;
-                    case "C":
-                        jserver.getbtnserC().setBackground(Color.green);
-                        break;
+                    //检测客户端上线下线状态
+                    switch (name) {
+                        case "A":
+                            jserver.getbtnserA().setBackground(Color.green);
+                            break;
+                        case "B":
+                            jserver.getbtnserB().setBackground(Color.green);
+                            break;
+                        case "C":
+                            jserver.getbtnserC().setBackground(Color.green);
+                            break;
+                        case "A-":
+                            jserver.getbtnserA().setBackground(Color.red);
+                            break;
+                        case "B-":
+                            jserver.getbtnserB().setBackground(Color.red);
+                            break;
+                        case "C-":
+                            jserver.getbtnserC().setBackground(Color.red);
+                            break;
+                    }
                 }
 
             } catch (IOException e) {
-                switch (name) {
-                    case "A":
-                        jserver.getbtnserA().setBackground(Color.red);
-                        break;
-                    case "B":
-                        jserver.getbtnserB().setBackground(Color.red);
-                        break;
-                    case "C":
-                        jserver.getbtnserC().setBackground(Color.red);
-                        break;
-                }
-
+                e.printStackTrace();
             }
         }
     }

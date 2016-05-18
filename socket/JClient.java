@@ -1,6 +1,8 @@
 package socket;
 
 import java.awt.Color;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -34,8 +36,48 @@ public class JClient extends javax.swing.JFrame {
 
         initComponents();
         jtfcliname.setText("客户端" + name);
+
+        this.setVisible(true);
+        //连上服务器
+        conToServer();
+
+        //监听上线用户的线程
+        new Thread(() -> {
+            while (s1 != null) {
+                try {
+                    String cname = reader.readLine();
+                    System.out.println("connected!");
+                    System.out.println("Client name:" + cname);
+                    //如果断开连接
+                    if (cname==null){
+                        btncliA.setBackground(Color.red);
+                        btncliB.setBackground(Color.red);
+                        btncliC.setBackground(Color.red);
+                        return;
+                    }
+                    //拆分逗号，得到A B C
+                    String[] cn = cname.split(",");
+                    //迭代判断设置按钮颜色
+                    for (String aCn : cn) {
+                        if (aCn.equals("A"))  btncliA.setBackground(Color.green);
+                        if (aCn.equals("B"))  btncliB.setBackground(Color.green);
+                        if (aCn.equals("C"))  btncliC.setBackground(Color.green);
+                        if (aCn.equals("A-")) btncliA.setBackground(Color.red);
+                        if (aCn.equals("B-")) btncliB.setBackground(Color.red);
+                        if (aCn.equals("C-")) btncliC.setBackground(Color.red);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+
+                }
+            }
+        }).start();
+
+    }
+
+    public void conToServer(){
+        //获得一个连接服务器的socket
         try {
-            //获得一个连接服务器的socket
             s1 = new Socket("127.0.0.1", 8888);
             //输入流
             reader = new BufferedReader(new InputStreamReader(s1.getInputStream()));
@@ -44,33 +86,21 @@ public class JClient extends javax.swing.JFrame {
             //发送给服务器端
             writer.println(name);
 //            System.out.println("ok!----");
-            this.setVisible(true);
-            //监听上线用户的线程
-            new Thread(() -> {
-                while (true) {
-                    try {
-                        String cname = reader.readLine();
-                        System.out.println("connected!");
-                        //拆分逗号，得到A B C
-                        String[] cn = cname.split(",");
-                        //迭代判断设置按钮颜色
-                        for (String aCn : cn) {
-                            if (aCn.equals("A")) this.btncliA.setBackground(Color.green);
-                            if (aCn.equals("B")) this.btncliB.setBackground(Color.green);
-                            if (aCn.equals("C")) this.btncliC.setBackground(Color.green);
-                        }
-                        System.out.println("Client name:" + cname);
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }).start();
-
-        } catch (IOException ex) {
-
+        } catch (IOException e) {
+            e.printStackTrace();
+            this.btncliA.setBackground(Color.red);
+            this.btncliB.setBackground(Color.red);
+            this.btncliC.setBackground(Color.red);
         }
+    }
 
+    /**
+     * 退出登陆
+     */
+    private void loginOut(){
+        //下线后发送一个 "X-"
+        writer.println(name+"-");
+        this.dispose();
     }
 
 
@@ -94,6 +124,17 @@ public class JClient extends javax.swing.JFrame {
         jtfcliname = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        /**
+         * 添加关闭事件监听
+         * 关闭窗口退出登陆
+         */
+        this.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e);
+                loginOut();
+                }
+        });
 
         jButton1.setText("退出登陆");
         jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -187,14 +228,13 @@ public class JClient extends javax.swing.JFrame {
      * @param evt
      */
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {
-        this.dispose();
-        new Jlogin().setVisible(true);
+//        this.dispose();
+//        new Jlogin().setVisible(true);
+        loginOut();
         // TODO add your handling code here:
     }
 
-    private void loginOut(){
-        this.dispose();
-    }
+
 
     /**
      * @param args the command line arguments
