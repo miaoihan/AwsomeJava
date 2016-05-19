@@ -17,6 +17,7 @@ public class SimpleDateFormatTest {
             Date date = sdf.parse("08/11/1993");
             System.out.println(sdf.format(date));
             System.out.println(date);
+            System.out.println(new SimpleDateFormat().format(new Date()));
         } catch (ParseException e) {
             e.printStackTrace();
         }
