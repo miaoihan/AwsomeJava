@@ -3,6 +3,7 @@ package constrctor;
 import com.sun.org.apache.xpath.internal.SourceTree;
 
 /**
+ * 测试构造器的构造顺序
  * @author han
  * @date 16-5-19.
  */
