@@ -12,7 +12,9 @@ import java.net.Socket;
  */
 public class Server1 {
     public static void main(String[] args) throws IOException {
+        /** 得到连接服务器的socket */
         ServerSocket server = new ServerSocket(5678);
+        /**  阻塞线程，直到接收到客户端   */
         Socket client = server.accept();
         BufferedReader in = new BufferedReader(new InputStreamReader(
                 client.getInputStream()));
