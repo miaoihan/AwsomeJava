@@ -1,7 +1,8 @@
 package String;
 
 /**
- * Created by han on 16-4-11.
+ * @author han
+ * @date 16-4-11.
  */
 public class TestString {
     public static void main(String[] args) {
